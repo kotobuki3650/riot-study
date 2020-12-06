@@ -9,16 +9,14 @@
       key={ item.id }
     >
       { `${item.id}: ${item.name}` }
-      <button onclick={ expand } id={ i }>expand</button>
       <button onclick={ remove } id={ i }>remove</button>
     </li>
   </ul>
-  <button onclick={ reload }>reload</button>
   <button onclick={ add }>add</button>
-  <button onclick={ expandAll }>expandAll</button>
+  <button onclick={ reverse }>reverse</button>
   
   <script>
-    import anime from 'animejs'
+    import animore from 'animore'
     const uid = ((id) => () => id++)(5)
 
     export default {
@@ -31,56 +29,32 @@
           { name: 'カビゴン', id: 4 }
         ]
       },
-      onBeforeMount(props, state) {
-        // any processing
-      },
-      onMounted() {
-        anime({
-          targets: 'li',
-          translateX: [200, 0],
-          delay: anime.stagger(100)
+      onBeforeUpdate (props, state) {
+        this.animations = animore('li', {
+          duration: 500,
+          easing: 'linear'
         })
+        this.animations.forEach(({ stash }) => stash())
       },
-      reload() {
-        window.location.reload()
+      onUpdated() {
+        this.animations.forEach(({ apply }) => apply())
       },
       add() {
         const { items } = this.state
-        items.push({
+        items.splice(~~(Math.random() * items.length), 0, {
           name: Math.random() > 0.5 ? 'foo' : 'bar',
-          id : uid()
+          id: uid()
         })
         this.update({ items })
-        anime({
-          targets: 'li',
-          translateX: [200, 0],
-          delay: anime.stagger(100)
-        })
       },
       remove(e) {
         const { items } = this.state
         items.splice(e.target.id, 1)
-        anime({
-          targets: e.target.parentNode,
-          translateX: 200,
-          complete: () => this.update({ items })
-        })
+        this.update({ items })
       },
-      expand(e) {
-        anime({
-          targets: e.target.parentNode,
-          scale: 2,
-          translateX: 700,
-          complete: (anim) => anim.reset()
-        })
-      },
-      expandAll() {
-        anime({
-          targets: 'li',
-          scale: 2,
-          translateX: 700,
-          delay: anime.stagger(100),
-          direction: 'alternate'
+      reverse() {
+        this.update({
+          items: this.state.items.reverse()
         })
       }
     }

@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "animejs": "^3.2.1",
+    "animore": "^2.0.3",
     "riot": "^5.1.0"
   },
   "devDependencies": {
