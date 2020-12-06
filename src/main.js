@@ -1,7 +1,8 @@
 import '@riotjs/hot-reload'
-import App from './app.riot'
 import { component } from 'riot'
+import 'semantic-ui-riot'
+import App from './app.riot'
 
 component(App)(document.getElementById('app'), {
-  title: 'Riot.js with Animore'
+  title: 'Semantic UI Riot Demo'
 })
