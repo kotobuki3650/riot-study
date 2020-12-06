@@ -3,5 +3,5 @@ import App from './app.riot'
 import { component } from 'riot'
 
 component(App)(document.getElementById('app'), {
-  title: 'Hello Riot.js!'
+  title: 'Riot.js with Anime.js!'
 })
