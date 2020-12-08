@@ -3,80 +3,49 @@
     <img src="https://riot.js.org/img/logo/riot-logo.svg" alt="Riot.js logo" class="logo">
   </div>
   <h1>{ props.title }</h1>
-  <ul>
-    <li>
-      <su-checkbox>
-        Make my profile visible
-      </su-checkbox>
-    </li>
-    <li>
-      <su-checkbox class="disabled">
-        Disabled
-      </su-checkbox>
-    </li>
-    <li>
-      <su-checkbox class="slider">
-        Accept terms and conditions
-      </su-checkbox>
-    </li>
-    <li>
-      <su-checkbox
-        class="toggle"
-        checked={ isChecked }
-        onchange={ handleChange }
-      >
-        Subscribe to weekly newsleter
-      </su-checkbox>
-    </li>
-  </ul>
+  <su-dropdown items={ dropdownItems } onselect={ handleSelect }></su-dropdown>
   <div class="ui message">
-    <p>{ isChecked ? 'on' : 'off' }</p>
-  </div>
-
-  <su-checkbox-group
-    name="checkbox-group"
-    value={ checkboxGropuValue }
-    onchange={ handleChange }
-  >
-    <su-checkbox value="1">Checkbox 1</su-checkbox>
-    <su-checkbox value="2">Checkbox 2</su-checkbox>
-    <su-checkbox value="3">Checkbox 3</su-checkbox>
-  </su-checkbox-group>
-
-  <div>
-    <button
-      type="button"
-      class="ui button"
-      onclick={ () => checkSelectCheckbox([1, 2]) }
-    >Check 1, 2</button>
-    <button
-      type="button"
-      class="ui button"
-      onclick={ () => checkSelectCheckbox([1, 2, 3]) }
-    >Check all</button>
-    <button
-      type="button"
-      class="ui button"
-      onclick={ () => checkSelectCheckbox([]) }
-    >Clear all</button>
+    <p>{ selectMenu ? selectMenu.label : 'no select' }</p>
   </div>
 
   <script>
     export default {
-      isChecked: false,
+      dropdownItems: [
+        {
+          label: 'Select Friend',
+          value: null,
+          default: true
+        },
+        {
+          label: 'Jenny Hess',
+          image: './assets/img/jenny.jpg',
+          value: 'jenny'
+        },
+        {
+          label: 'Elliot Fu',
+          image: './assets/img/elliot.jpg',
+          value: 'elliot'
+        },
+        {
+          label: 'Stevie Feliciano',
+          image: './assets/img/stevie.jpg',
+          value: 'stevie'
+        },
+        {
+          label: 'Christion',
+          image: './assets/img/christion.jpg',
+          value: 'christion'
+        },
+        {
+          label: 'Matt',
+          image: './assets/img/matt.jpg',
+          value: 'matt'
+        },
+      ],
       onBeforeMounte() {
       },
-      handleChange(e) {
-        this.isChecked = e.target.checked
-        this.update()
-      },
-      checkSelectCheckbox(value) {
-        if (value.length === 0) {
-          this.$$('input[type="checkbox"]').forEach(item => {
-            item.checked = false
-          })
-        }
-        this.checkboxGropuValue = value
+      handleSelect(e) {
+        this.selectMenu = e
         this.update()
       }
     }
